@@ -1,2 +1,7 @@
-package com.sp.microservices.order_service.repository;public interface OrderRepository {
+package com.sp.microservices.order_service.repository;
+
+import com.sp.microservices.order_service.model.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface OrderRepository extends JpaRepository<Order,Long> {
 }

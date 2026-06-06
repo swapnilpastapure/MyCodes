@@ -1,12 +1,25 @@
-version: '4'
+#version: '4'
+#services:
+#  mysql:
+#    image: mysql:8.3.0
+#    container_name: I_S_mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: mysql
+#    ports:
+#      - "3307:3306"
+#    volumes:
+#      - ./mysql:/var/lib/mysql
+#      - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+
 services:
   mysql:
     image: mysql:8.3.0
-    container_name: mysql
+    container_name: I_S_mysql
     environment:
       MYSQL_ROOT_PASSWORD: mysql
     ports:
-      - "3307:3306"
+      - "3308:3306"
     volumes:
       - ./mysql:/var/lib/mysql
       - ./docker/mysql/init.sql:/docker-entrypoint-initdb.d/init.sql

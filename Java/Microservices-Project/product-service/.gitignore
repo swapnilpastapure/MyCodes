@@ -31,3 +31,15 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# MySQL data
+mysql/
+
+# Maven build
+target/
+
+# IntelliJ
+.idea/
+
+# OS files
+.DS_Store

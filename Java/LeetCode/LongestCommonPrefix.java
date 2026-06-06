@@ -1,4 +1,4 @@
-public class LongestCommonPrefix {
+class LongestCommonPrefix {
     public String longestCommonPrefix(String[] strs) {
         if (strs == null || strs.length == 0) {
             return "";
@@ -17,5 +17,13 @@ public class LongestCommonPrefix {
         }
 
         return prefix;
+    }
+
+    public static void main(String[] args) {
+        LongestCommonPrefix obj = new LongestCommonPrefix();
+
+        String[] strs = {"flower", "flow", "flight"};
+
+        System.out.println(obj.longestCommonPrefix(strs));
     }
 }
