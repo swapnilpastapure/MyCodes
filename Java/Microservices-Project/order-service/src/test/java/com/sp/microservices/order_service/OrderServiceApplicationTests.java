@@ -1,32 +1,33 @@
 package com.sp.microservices.order_service;
 
-import com.sp.microservices.order_service.stubs.InventoryClientStub;
+
+import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 import io.restassured.RestAssured;
+import com.sp.microservices.order_service.stubs.InventoryClientStub;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
-import org.testcontainers.containers.MySQLContainer;
 //import org.springframework.cloud.contract.wiremock.AutoConfigureWireMock;
 
-import com.github.tomakehurst.wiremock.WireMockServer;
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.wireMockConfig;
-
+import org.testcontainers.containers.MySQLContainer;
 
 import static org.hamcrest.MatcherAssert.assertThat;
+//2nd try
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 
+//2nd try
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-//@AutoConfigureWireMock(port = 0)
+@WireMockTest(httpPort = 8089)
+
+
 class OrderServiceApplicationTests {
 
 	@ServiceConnection
-	static MySQLContainer<?> mySQLContainer =
-			new MySQLContainer<>("mysql:8.3.0");
-//updated
-	static WireMockServer wireMockServer =
-			new WireMockServer(wireMockConfig().port(8080));
+	static MySQLContainer mySQLContainer = new MySQLContainer("mysql:8.3.0");
 	@LocalServerPort
 	private Integer port;
 
@@ -38,10 +39,12 @@ class OrderServiceApplicationTests {
 
 	static {
 		mySQLContainer.start();
+	}
 
-			 //update
-			wireMockServer.start();
-
+	//2nd try
+	@DynamicPropertySource
+	static void configureProperties(DynamicPropertyRegistry registry) {
+		registry.add("inventory.url", () -> "http://localhost:8089");
 	}
 
 	@Test
@@ -54,7 +57,6 @@ class OrderServiceApplicationTests {
                 }
                 """;
 
-		//System.out.println("WireMock Port = " + wireMockPort);
 		InventoryClientStub.stubInventoryCall("iphone_15", 1);
 		var responseBodyString = RestAssured.given()
 				.contentType("application/json")
